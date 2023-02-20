@@ -113,7 +113,7 @@ with open('Employees.txt', 'r') as EmpFile:
         EmpTotals["TotNetPay"] = TotNetPay
         DetailsPrinted = True   
     if (DetailsPrinted):  #skip of no detail lines printed
-        PrintTotals(EmpTotals)
+        PrintTotals (EmpTotals)
     else:
         print("No detail information to print")
 
