@@ -57,7 +57,6 @@ def printinfo(DetailsPrinted):
     TotTax = 0.00
     TotNetPay = 0.00
 
-#with open('Employees.txt', 'r') as EmpFile:
 
 with open('Employees.txt', 'r') as EmpFile:
     while True:
@@ -67,6 +66,19 @@ with open('Employees.txt', 'r') as EmpFile:
             break
         EmpDetail = EmpDetail.strip() # remove the carriage return from EmpDetail
         EmpList = EmpDetail.split("|")
+        while True:
+            rundate = input ("Enter start date for report (YYYY-MM-DD) or All for all data in file: ")
+            if (rundate.upper() == "ALL"):
+                break
+            try:
+                rundate = datetime.strptime(rundate, "%Y-%m-%d")
+                break
+            except ValueError:
+                print("Invalid date format. Try again.")
+                print()
+                continue  # skip next if statement and re-start loop
+        while True:
+            EmpDetail = EmpFile.readline()
             
         fromdate = EmpList[0]
         if (str(rundate).upper() != "ALL"):
@@ -101,7 +113,7 @@ with open('Employees.txt', 'r') as EmpFile:
         EmpTotals["TotNetPay"] = TotNetPay
         DetailsPrinted = True   
     if (DetailsPrinted):  #skip of no detail lines printed
-        PrintTotals (EmpTotals)
+        PrintTotals(EmpTotals)
     else:
         print("No detail information to print")
 
@@ -141,3 +153,4 @@ if __name__ == "__main__":
         EmpFile.close()
         
         printinfo(DetailsPrinted)
+
