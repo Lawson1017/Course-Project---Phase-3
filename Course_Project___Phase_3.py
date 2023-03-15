@@ -58,64 +58,65 @@ def printinfo(DetailsPrinted):
     TotNetPay = 0.00
 
 
-with open('Employees.txt', 'r') as EmpFile:
-    while True:
-        DetailsPrinted = False  # initialize DetailsPrinted to False
-        EmpDetail = EmpFile.readline()
-        if not EmpDetail:
-            break
-        EmpDetail = EmpDetail.strip() # remove the carriage return from EmpDetail
-        EmpList = EmpDetail.split("|")
+    with open('Employees.txt', 'r') as EmpFile:
         while True:
-            rundate = input ("Enter start date for report (YYYY-MM-DD) or All for all data in file: ")
-            if (rundate.upper() == "ALL"):
-                break
-            try:
-                rundate = datetime.strptime(rundate, "%Y-%m-%d")
-                break
-            except ValueError:
-                print("Invalid date format. Try again.")
-                print()
-                continue  # skip next if statement and re-start loop
-        while True:
+            DetailsPrinted = False  # initialize DetailsPrinted to False
             EmpDetail = EmpFile.readline()
-            
-        fromdate = EmpList[0]
-        if (str(rundate).upper() != "ALL"):
-            checkdate = datetime.strptime(fromdate, "%Y-%m-%d")
-            if (checkdate < rundate):
-                continue        
-        todate = EmpList[1]
-        empname = EmpList[2]
-        hours = float(EmpList[3])
-        hourlyrate  = float(EmpList[4])
-        taxrate = float(EmpList[5])
-        grosspay, incometax, netpay = CalcTaxAndNetPay(hours, hourlyrate, taxrate)
-        print ("********************************************************")
-        print("Name:  ", empname) 
-        print("Hours Worked: ", f"{hours:,.2f}")
-        print("Hourly Rate: ",  f"{hourlyrate:,.2f}")
-        print("Gross Pay : ",f"{grosspay:,.2f}")
-        print("Tax Rate: ", f"{taxrate:,.1%}")
-        print("Income Tax: ",  f"{incometax:,.2f}")
-        print("Net Pay: ",  f"{netpay:,.2f}")
-        print ("********************************************************")
-        print()
-        TotEmployees += 1
-        TotHours += hours
-        TotGrossPay += grosspay
-        TotTax += incometax
-        TotNetPay += netpay
-        EmpTotals["TotEmp"] = TotEmployees
-        EmpTotals["TotHrs"] = TotHours
-        EmpTotals["TotGrossPay"] = TotGrossPay
-        EmpTotals["TotTax"] = TotTax
-        EmpTotals["TotNetPay"] = TotNetPay
-        DetailsPrinted = True   
-    if (DetailsPrinted):  #skip of no detail lines printed
-        PrintTotals (EmpTotals)
-    else:
-        print("No detail information to print")
+            if not EmpDetail:
+                break
+            EmpDetail = EmpDetail.strip() # remove the carriage return from EmpDetail
+            EmpList = EmpDetail.split("|")
+            while True:
+                rundate = input ("Enter start date for report (YYYY-MM-DD) or All for all data in file: ")
+                if (rundate.upper() == "ALL"):
+                    break
+                try:
+                    rundate = datetime.strptime(rundate, "%Y-%m-%d")
+                    break
+                except ValueError:
+                    print("Invalid date format. Try again.")
+                    print()
+                    continue  # skip next if statement and re-start loop
+            while True:
+                EmpDetail = EmpFile.readline()
+                if not EmpDetail:
+                    break
+            fromdate = EmpList[0]
+            if (str(rundate).upper() != "ALL"):
+                checkdate = datetime.strptime(fromdate, "%Y-%m-%d")
+                if (checkdate < rundate):
+                    continue        
+                todate = EmpList[1]
+                empname = EmpList[2]
+                hours = float(EmpList[3])
+                hourlyrate  = float(EmpList[4])
+                taxrate = float(EmpList[5])
+                grosspay, incometax, netpay = CalcTaxAndNetPay(hours, hourlyrate, taxrate)
+                print ("********************************************************")
+                print("Name:  ", empname) 
+                print("Hours Worked: ", f"{hours:,.2f}")
+                print("Hourly Rate: ",  f"{hourlyrate:,.2f}")
+                print("Gross Pay : ",f"{grosspay:,.2f}")
+                print("Tax Rate: ", f"{taxrate:,.1%}")
+                print("Income Tax: ",  f"{incometax:,.2f}")
+                print("Net Pay: ",  f"{netpay:,.2f}")
+                print ("********************************************************")
+                print()
+                TotEmployees += 1
+                TotHours += hours
+                TotGrossPay += grosspay
+                TotTax += incometax
+                TotNetPay += netpay
+                EmpTotals["TotEmp"] = TotEmployees
+                EmpTotals["TotHrs"] = TotHours
+                EmpTotals["TotGrossPay"] = TotGrossPay
+                EmpTotals["TotTax"] = TotTax
+                EmpTotals["TotNetPay"] = TotNetPay
+                DetailsPrinted = True   
+            if (DetailsPrinted):  #skip of no detail lines printed
+                PrintTotals (EmpTotals)
+            else:
+                print("No detail information to print")
 
 
 def PrintTotals(EmpTotals):    
